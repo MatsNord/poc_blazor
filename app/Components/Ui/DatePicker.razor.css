@@ -1,0 +1,229 @@
+/* DatePicker — translated from VDatePicker.sass, VDatePickerMonth.sass,
+   VDatePickerControls.sass and VDatePicker/_variables.scss.
+   Label is static on the top border (simplified from Vuetify's floating label,
+   matching TextField). */
+
+.dp {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+/* Container for trigger + label (mirrors .tf__field) */
+.dp__field {
+    position: relative;
+    display: inline-flex;
+}
+
+/* Static label: permanently notched into the top border with a surface-colored
+   patch breaking the outline — identical position/typography to .tf__label. */
+.dp__label {
+    position: absolute;
+    left: 12px;
+    top: 0;
+    transform: translateY(-50%);
+    max-width: calc(100% - 24px);
+    padding: 0 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    letter-spacing: 0.0333333333em;
+    color: var(--v-medium-emphasis);
+    background-color: var(--v-surface);
+    pointer-events: none;
+}
+
+/* Trigger styled like an outlined field (VField, 56px) */
+.dp__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    height: 56px;
+    min-width: 240px;
+    padding: 0 16px;
+    border: 1px solid var(--v-border-color);
+    border-radius: var(--v-radius);
+    background-color: var(--v-surface);
+    font-family: inherit;
+    font-size: 1rem;
+    letter-spacing: 0.03125em;
+    color: var(--v-high-emphasis);
+    cursor: pointer;
+    transition: border-color 150ms var(--v-easing), box-shadow 150ms var(--v-easing);
+}
+
+.dp__trigger:hover {
+    border-color: var(--v-high-emphasis);
+}
+
+.dp__trigger:focus {
+    outline: none;
+}
+
+.dp__trigger:focus-visible {
+    border-color: var(--v-high-emphasis);
+    box-shadow: inset 0 0 0 1px var(--v-high-emphasis);
+}
+
+.dp__value--empty {
+    color: var(--v-medium-emphasis);
+}
+
+.dp__icon {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 auto;
+    fill: var(--v-medium-emphasis);
+}
+
+.dp__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+}
+
+/* Popup panel: 328px wide, elevation-8 shadow (Vuetify values) */
+.dp__popup {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 20;
+    width: 328px;
+    max-width: calc(100vw - 32px);
+    padding-bottom: 8px;
+    border-radius: var(--v-radius);
+    background-color: var(--v-surface);
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+                0 8px 10px 1px rgba(0, 0, 0, 0.14),
+                0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+/* Controls row: prev / month label / next (VDatePickerControls) */
+.dp__controls {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    padding: 4px 12px;
+}
+
+.dp__month {
+    flex: 1;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.0071428571em;
+    color: var(--v-high-emphasis);
+}
+
+/* Round icon buttons (VBtn variant="text" density="comfortable" icon) */
+.dp__nav {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: transparent;
+    color: var(--v-high-emphasis);
+    cursor: pointer;
+    transition: background-color 0.28s var(--v-easing);
+}
+
+.dp__nav:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.dp__nav:focus {
+    outline: none;
+}
+
+.dp__nav:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+}
+
+.dp__nav svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+/* Weekday header + day grid: 7 columns (VDatePickerMonth) */
+.dp__weekdays,
+.dp__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    justify-items: center;
+    padding: 0 12px;
+}
+
+.dp__weekday {
+    font-size: 0.875rem;
+    color: var(--v-medium-emphasis);
+    text-align: center;
+}
+
+.dp__grid {
+    font-size: 0.875rem;
+    padding-bottom: 8px;
+}
+
+/* Day cell: 40px target (VDatePickerMonth day size) */
+.dp__day {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--v-radius);
+    background-color: transparent;
+    font-family: inherit;
+    font-size: 0.875rem;
+    color: var(--v-high-emphasis);
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.dp__day:hover:not(.dp__day--selected) {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.dp__day:focus {
+    outline: none;
+}
+
+.dp__day:focus-visible {
+    outline: 2px solid var(--v-primary);
+    outline-offset: -2px;
+}
+
+/* Adjacent-month days are muted */
+.dp__day--outside {
+    color: var(--v-medium-emphasis);
+}
+
+/* Today indicator: primary ring + colored text */
+.dp__day--today:not(.dp__day--selected) {
+    color: var(--v-primary);
+    font-weight: 500;
+    box-shadow: inset 0 0 0 1px var(--v-primary);
+}
+
+/* Selected day: surface-variant background (Vuetify default) */
+.dp__day--selected {
+    background-color: var(--v-surface-variant);
+    color: var(--v-on-surface-variant);
+    font-weight: 500;
+}
+
+/* Footer actions (Clear) */
+.dp__actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 12px;
+}

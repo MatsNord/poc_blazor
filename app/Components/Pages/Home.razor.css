@@ -1,0 +1,74 @@
+.todo-form {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.todo-form__title {
+    flex: 1 1 280px;
+    min-width: 240px;
+}
+
+/* 56px tall so the 36px button is centered against the field boxes
+   (TextField and DatePicker triggers are both 56px, top-aligned above) */
+.todo-form__submit {
+    display: flex;
+    align-items: center;
+    height: 56px;
+}
+
+.todo-empty {
+    color: var(--v-medium-emphasis);
+}
+
+.todo-count {
+    margin: 0 0 8px;
+    font-size: 0.875rem;
+    color: var(--v-medium-emphasis);
+}
+
+.todo-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: var(--v-radius);
+    transition: background-color 0.28s var(--v-easing);
+}
+
+.todo-item:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Completed todos get a struck-through, muted title (targets AppCheckbox's label) */
+.todo-item--done ::deep .cb__label {
+    text-decoration: line-through;
+    color: var(--v-medium-emphasis);
+}
+
+.todo-item__due {
+    font-size: 0.75rem;
+    letter-spacing: 0.0333333333em;
+    color: var(--v-medium-emphasis);
+    white-space: nowrap;
+}
+
+.todo-item__due--overdue {
+    color: var(--v-error);
+    font-weight: 500;
+}
+
+.todo-item__spacer {
+    flex: 1;
+}

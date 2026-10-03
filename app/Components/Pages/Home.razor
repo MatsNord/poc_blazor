@@ -1,0 +1,83 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>Todo</PageTitle>
+
+<h1>Todo</h1>
+<p class="page-sub">In-memory demo — no database or persistence. Built with components translated from Vuetify.</p>
+
+<div class="todo-form">
+    <div class="todo-form__title">
+        <TextField Label="Title"
+                   Placeholder="What needs to be done?"
+                   Value="@_title"
+                   ValueChanged="OnTitleChanged"
+                   Error="@_titleError"
+                   @onkeydown="OnTitleKeyDown" />
+    </div>
+    <DatePicker Label="Due date (optional)" @bind-Value="_dueDate" />
+    <div class="todo-form__submit">
+        <FlatButton OnClick="AddTodo">Add todo</FlatButton>
+    </div>
+</div>
+
+@if (_todos.Count == 0)
+{
+    <p class="todo-empty">No todos yet. Add your first one above.</p>
+}
+else
+{
+    <p class="todo-count">@_todos.Count(t => t.Completed) of @_todos.Count completed</p>
+    <ul class="todo-list">
+        @foreach (var item in _todos)
+        {
+            <li class="todo-item @(item.Completed ? "todo-item--done" : null)" @key="item.Id">
+                <AppCheckbox @bind-Value="item.Completed" Label="@item.Title" />
+                @if (item.DueDate is { } due)
+                {
+                    var overdue = due < DateOnly.FromDateTime(DateTime.Today) && !item.Completed;
+                    <span class="todo-item__due @(overdue ? "todo-item__due--overdue" : null)">
+                        Due @due.ToString("d")
+                    </span>
+                }
+                <span class="todo-item__spacer"></span>
+                <FlatButton Color="error" OnClick="() => Delete(item)">Delete</FlatButton>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private readonly List<TodoItem> _todos = new();
+    private string? _title;
+    private string? _titleError;
+    private DateOnly? _dueDate;
+
+    private Task OnTitleChanged(string? value)
+    {
+        _title = value;
+        _titleError = null; // clear the validation error as the user types
+        return Task.CompletedTask;
+    }
+
+    private void OnTitleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter") AddTodo();
+    }
+
+    private void AddTodo()
+    {
+        if (string.IsNullOrWhiteSpace(_title))
+        {
+            _titleError = "Title is required.";
+            return;
+        }
+
+        _todos.Add(new TodoItem { Title = _title.Trim(), DueDate = _dueDate });
+        _title = null;
+        _titleError = null;
+        _dueDate = null;
+    }
+
+    private void Delete(TodoItem item) => _todos.Remove(item);
+}

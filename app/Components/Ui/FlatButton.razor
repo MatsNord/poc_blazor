@@ -1,0 +1,27 @@
+@namespace app.Components.Ui
+@* Flat button, translated from Vuetify's VBtn with variant="flat". *@
+
+<button class="v-btn v-btn--@Color"
+        type="@Type"
+        disabled="@Disabled"
+        @onclick="OnClick"
+        @attributes="AdditionalAttributes">
+    @ChildContent
+</button>
+
+@code {
+    /// <summary>Theme color: <c>primary</c> (default), <c>error</c> or <c>surface</c>.</summary>
+    [Parameter] public string Color { get; set; } = "primary";
+
+    /// <summary>HTML button type. Defaults to <c>button</c>.</summary>
+    [Parameter] public string Type { get; set; } = "button";
+
+    [Parameter] public bool Disabled { get; set; }
+
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+}

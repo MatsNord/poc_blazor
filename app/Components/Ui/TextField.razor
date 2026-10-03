@@ -1,0 +1,65 @@
+@namespace app.Components.Ui
+@* Outlined text field with a static label notched into the top border and an
+   error message. Simplified from Vuetify's VTextField (variant="outlined") —
+   no floating/animated label. *@
+
+<div class="tf @StateClasses">
+    <div class="tf__field">
+        <input @attributes="AdditionalAttributes"
+               id="@Id"
+               class="tf__input"
+               type="@Type"
+               value="@Value"
+               placeholder="@Placeholder"
+               disabled="@Disabled"
+               aria-invalid="@(HasError ? "true" : null)"
+               aria-describedby="@(HasError ? $"{Id}-error" : null)"
+               @oninput="HandleInputAsync" />
+        @if (!string.IsNullOrEmpty(Label))
+        {
+            <label class="tf__label" for="@Id">@Label</label>
+        }
+    </div>
+    @if (HasError)
+    {
+        <div class="tf__details" id="@Id-error" role="alert">@Error</div>
+    }
+</div>
+
+@code {
+    private readonly string Id = $"tf-{Guid.NewGuid():N}";
+
+    /// <summary>Label text notched into the top border, associated to the input via <c>for</c>.</summary>
+    [Parameter] public string? Label { get; set; }
+
+    [Parameter] public string? Value { get; set; }
+
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+
+    /// <summary>Validation message. When non-empty the field renders in error state.</summary>
+    [Parameter] public string? Error { get; set; }
+
+    [Parameter] public string? Placeholder { get; set; }
+
+    /// <summary>HTML input type. Defaults to <c>text</c>.</summary>
+    [Parameter] public string Type { get; set; } = "text";
+
+    [Parameter] public bool Disabled { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool HasError => !string.IsNullOrEmpty(Error);
+
+    private string StateClasses => string.Join(' ', new[]
+    {
+        HasError ? "tf--error" : null,
+        Disabled ? "tf--disabled" : null,
+    }.Where(c => c is not null));
+
+    private async Task HandleInputAsync(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString();
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

@@ -1,0 +1,82 @@
+/* FlatButton — translated from VBtn.sass + VBtn/_variables.scss (variant="flat").
+   Default size/density only.
+   For variant "flat", the color prop maps to the button background
+   (composables/variant.tsx) and the foreground is the generated on-color
+   (composables/color.ts): white on dark colors, black on light ones. */
+
+.v-btn {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    min-width: 52px;
+    padding: 0 16px;
+    border: none;
+    border-radius: var(--v-radius);
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.0071428571em;
+    text-decoration: none;
+    text-transform: none;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.28s var(--v-easing), opacity 0.28s var(--v-easing);
+}
+
+/* Theme background + on-color foreground (useVariant/useColor) */
+.v-btn--primary { background-color: var(--v-primary); color: var(--v-on-primary); }
+.v-btn--error { background-color: var(--v-error); color: var(--v-on-error); }
+.v-btn--surface { background-color: var(--v-surface); color: var(--v-on-surface); }
+
+/* State layer, translated from .v-btn__overlay */
+.v-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-color: currentColor;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    pointer-events: none;
+}
+
+.v-btn:hover:not(:disabled)::before {
+    opacity: var(--v-hover-opacity);
+}
+
+.v-btn:active:not(:disabled)::before {
+    opacity: var(--v-pressed-opacity);
+}
+
+/* Focus ring, translated from .v-btn:focus-visible ::after */
+.v-btn:focus {
+    outline: none;
+}
+
+.v-btn:focus-visible::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid currentColor;
+    border-radius: inherit;
+    opacity: 0.25;
+    pointer-events: none;
+}
+
+/* Disabled flat button: surface background, faded on-surface text
+   (VBtn.sass .v-btn--disabled.v-btn--variant-flat) */
+.v-btn:disabled {
+    background-color: var(--v-surface);
+    color: var(--v-disabled-text);
+    cursor: default;
+    pointer-events: none;
+}
+
+/* The overlay uses currentColor; compensate for the 0.38 text opacity
+   ($button-disabled-overlay / $button-disabled-opacity) */
+.v-btn:disabled::before {
+    opacity: calc(var(--v-pressed-opacity) / var(--v-disabled-opacity));
+}

@@ -1,0 +1,65 @@
+@page "/components"
+@rendermode InteractiveServer
+
+<PageTitle>Component showcase</PageTitle>
+
+<h1>Component showcase</h1>
+<p class="page-sub">Reusable Blazor components translated from Vuetify 4.2.3 sources. See MAPPING.md for the source-to-component mapping.</p>
+
+<section class="demo-section">
+    <h2>FlatButton <span class="demo-source">VBtn, variant="flat"</span></h2>
+    <div class="demo-row">
+        <FlatButton OnClick="() => _clicks++">Primary</FlatButton>
+        <FlatButton Color="error" OnClick="() => _clicks++">Error</FlatButton>
+        <FlatButton Color="surface" OnClick="() => _clicks++">Surface</FlatButton>
+        <FlatButton Disabled="true">Disabled</FlatButton>
+    </div>
+    <p class="demo-note">Clicked @_clicks times — demonstrates EventCallback&lt;MouseEventArgs&gt;.</p>
+</section>
+
+<section class="demo-section">
+    <h2>TextField <span class="demo-source">VTextField, variant="outlined"</span></h2>
+    <div class="demo-col">
+        <TextField Label="Name" Placeholder="Jane Doe" @bind-Value="_name" />
+        <p class="demo-note">Bound value: @(_name ?? "(empty)")</p>
+        <TextField Label="Email" Placeholder="name@example.com" @bind-Value="_email" Error="@_emailError" />
+        <div>
+            <FlatButton OnClick="ValidateEmail">Validate</FlatButton>
+        </div>
+        <TextField Label="Disabled" Value="Cannot edit" Disabled="true" />
+    </div>
+</section>
+
+<section class="demo-section">
+    <h2>AppCheckbox <span class="demo-source">VCheckbox</span></h2>
+    <div class="demo-col">
+        <AppCheckbox @bind-Value="_check1" Label="Subscribe to newsletter" />
+        <AppCheckbox @bind-Value="_check2" Label="Accept terms" />
+        <AppCheckbox Value="true" Disabled="true" Label="Checked and disabled" />
+        <p class="demo-note">Subscribe: @_check1 · Terms: @_check2</p>
+    </div>
+</section>
+
+<section class="demo-section">
+    <h2>DatePicker <span class="demo-source">VDatePicker</span></h2>
+    <DatePicker Label="Appointment" @bind-Value="_date" />
+    <p class="demo-note">
+        Selected: @(_date?.ToString("D") ?? "(none)").
+        Open the calendar, pick a day or press Clear. Arrow keys move between days, Escape closes and refocuses the trigger.
+    </p>
+</section>
+
+@code {
+    private int _clicks;
+    private string? _name;
+    private string? _email;
+    private string? _emailError;
+    private bool _check1 = true;
+    private bool _check2;
+    private DateOnly? _date = DateOnly.FromDateTime(DateTime.Today);
+
+    private void ValidateEmail() =>
+        _emailError = string.IsNullOrWhiteSpace(_email) ? "Email is required."
+            : !_email.Contains('@') ? "Enter a valid email address."
+            : null;
+}

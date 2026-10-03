@@ -1,0 +1,108 @@
+/* AppCheckbox — translated from VCheckbox.sass + VSelectionControl.sass.
+   40px selection-control target with 18px box. */
+
+.cb {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cb__control {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+/* Circular state layer behind the box (hover 0.04 / focus 0.12) */
+.cb__control::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-color: var(--v-high-emphasis);
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    pointer-events: none;
+}
+
+.cb:hover .cb__control::before {
+    opacity: var(--v-hover-opacity);
+}
+
+.cb:focus-within .cb__control::before {
+    opacity: var(--v-focus-opacity);
+}
+
+.cb--checked .cb__control::before {
+    background-color: var(--v-primary);
+}
+
+.cb__input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.cb__box {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--v-medium-emphasis);
+    border-radius: 2px;
+    background-color: transparent;
+    pointer-events: none;
+    transition: background-color 150ms var(--v-easing), border-color 150ms var(--v-easing);
+}
+
+.cb--checked .cb__box {
+    background-color: var(--v-primary);
+    border-color: var(--v-primary);
+}
+
+.cb__check {
+    width: 18px;
+    height: 18px;
+    fill: var(--v-on-primary);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 100ms var(--v-easing), transform 100ms var(--v-easing);
+}
+
+.cb--checked .cb__check {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Visible keyboard focus ring on the box itself */
+.cb__input:focus-visible + .cb__box {
+    outline: 2px solid var(--v-primary);
+    outline-offset: 2px;
+}
+
+.cb__label {
+    font-size: 1rem;
+    letter-spacing: 0.03125em;
+    color: var(--v-high-emphasis);
+    cursor: pointer;
+    user-select: none;
+}
+
+.cb--disabled {
+    opacity: var(--v-disabled-opacity);
+}
+
+.cb--disabled .cb__input,
+.cb--disabled .cb__label {
+    cursor: default;
+}
